@@ -25,19 +25,12 @@ public:
     /**
      constructor - receives a reference to a FilePlayer object to control
      */
-    FilePlayerGui();
+    FilePlayerGui(FilePlayer& filePlayer_);
     
     /**
      Destructor 
      */
     ~FilePlayerGui();
-    
-    /**
-     Sets the FilePlayer that this FilePlayer will control
-     
-     @param filePlayer_ reference to the fileplayer to control
-     */
-    void setFilePlayer (FilePlayer* filePlayer_);
     
     //Component
     void resized();
@@ -52,7 +45,7 @@ private:
     TextButton playButton;
     FilenameComponent* fileChooser;
     
-    FilePlayer* filePlayer;
+    FilePlayer& filePlayer;
     
 };
 

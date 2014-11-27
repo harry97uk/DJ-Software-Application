@@ -10,10 +10,9 @@
 
 
 //==============================================================================
-MainComponent::MainComponent (Audio& audio_) : audio (audio_)
+MainComponent::MainComponent (Audio& audio_) : audio (audio_), filePlayerGui (audio_.getFilePlayer())
 {
     setSize (500, 400);
-    filePlayerGui.setFilePlayer (audio.getFilePlayer());
     addAndMakeVisible(filePlayerGui);
 }
 

@@ -31,7 +31,7 @@ public:
     /** Returns the audio device manager, don't keep a copy of it! */
     AudioDeviceManager& getAudioDeviceManager() { return audioDeviceManager;}
     
-    FilePlayer* getFilePlayer() { return &filePlayer; }
+    FilePlayer& getFilePlayer() { return filePlayer; }
     
     void handleIncomingMidiMessage (MidiInput* source, const MidiMessage& message) override;
     

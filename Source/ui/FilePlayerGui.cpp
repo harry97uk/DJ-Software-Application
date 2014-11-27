@@ -10,7 +10,7 @@
 
 #include "FilePlayerGui.h"
 
-FilePlayerGui::FilePlayerGui() : filePlayer (nullptr)
+FilePlayerGui::FilePlayerGui (FilePlayer& filePlayer_) : filePlayer (filePlayer_)
 {
     playButton.setButtonText (">");
     playButton.addListener(this);
@@ -34,10 +34,6 @@ FilePlayerGui::~FilePlayerGui()
     delete fileChooser;
 }
 
-void FilePlayerGui::setFilePlayer (FilePlayer* filePlayer_)
-{
-    filePlayer = filePlayer_;
-}
 
 //Component
 void FilePlayerGui::resized()
@@ -53,11 +49,7 @@ void FilePlayerGui::buttonClicked (Button* button)
 {
     if (button == &playButton)
     {
-        if (filePlayer != nullptr)
-        {
-            filePlayer->setPlaying(!filePlayer->isPlaying());
-        }
-        
+        filePlayer.setPlaying(!filePlayer.isPlaying());
     }
 }
 
@@ -70,10 +62,7 @@ void FilePlayerGui::filenameComponentChanged (FilenameComponent* fileComponentTh
         
         if(audioFile.existsAsFile())
         {
-            if (filePlayer != nullptr)
-            {
-                filePlayer->loadFile(audioFile);
-            }
+                filePlayer.loadFile(audioFile);
         }
         else
         {
