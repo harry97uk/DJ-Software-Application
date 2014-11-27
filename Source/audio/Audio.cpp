@@ -14,6 +14,8 @@ Audio::Audio()
 {
     audioDeviceManager.initialiseWithDefaultDevices (2, 2); //2 inputs, 2 outputs
     
+    //load the filePlayer into the audio source
+    audioSourcePlayer.setSource (&filePlayer);
     
     audioDeviceManager.addMidiInputCallback (String::empty, this);
     audioDeviceManager.addAudioCallback (this);
@@ -37,16 +39,25 @@ void Audio::audioDeviceIOCallback (const float** inputChannelData,
                                            int numOutputChannels,
                                            int numSamples)
 {
+    // get the audio from our file player - player puts samples in the output buffer
+    audioSourcePlayer.audioDeviceIOCallback (inputChannelData, numInputChannels, outputChannelData, numOutputChannels, numSamples);
+    
     //All audio processing is done here
     const float *inL = inputChannelData[0];
     const float *inR = inputChannelData[1];
     float *outL = outputChannelData[0];
     float *outR = outputChannelData[1];
     
+    float inSampL;
+    float inSampR;
+    
     while(numSamples--)
     {
-        *outL = *inL;
-        *outR = *inR;
+        inSampL = *outL;
+        inSampR = *outL;
+        
+        *outL = inSampL * 1.f;
+        *outR = inSampR * 1.f;
         
         inL++;
         inR++;
@@ -58,10 +69,10 @@ void Audio::audioDeviceIOCallback (const float** inputChannelData,
 
 void Audio::audioDeviceAboutToStart (AudioIODevice* device)
 {
-    
+    audioSourcePlayer.audioDeviceAboutToStart (device);
 }
 
 void Audio::audioDeviceStopped()
 {
-
+    audioSourcePlayer.audioDeviceStopped();
 }

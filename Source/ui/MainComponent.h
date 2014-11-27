@@ -11,6 +11,7 @@
 
 #include "../../JuceLibraryCode/JuceHeader.h"
 #include "../audio/Audio.h"
+#include "FilePlayerGui.h"
 
 
 //==============================================================================
@@ -51,6 +52,8 @@ public:
     
 private:
     Audio& audio;
+    FilePlayerGui filePlayerGui;
+    
 
     //==============================================================================
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (MainComponent)

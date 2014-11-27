@@ -16,6 +16,7 @@
  */
 
 #include "../../JuceLibraryCode/JuceHeader.h"
+#include "FilePlayer.h"
 
 class Audio :   public MidiInputCallback,
                 public AudioIODeviceCallback
@@ -30,6 +31,8 @@ public:
     /** Returns the audio device manager, don't keep a copy of it! */
     AudioDeviceManager& getAudioDeviceManager() { return audioDeviceManager;}
     
+    FilePlayer* getFilePlayer() { return &filePlayer; }
+    
     void handleIncomingMidiMessage (MidiInput* source, const MidiMessage& message) override;
     
     void audioDeviceIOCallback (const float** inputChannelData,
@@ -43,6 +46,9 @@ public:
     void audioDeviceStopped() override;
 private:
     AudioDeviceManager audioDeviceManager;
+    
+    AudioSourcePlayer audioSourcePlayer;
+    FilePlayer filePlayer;
 };
 
 

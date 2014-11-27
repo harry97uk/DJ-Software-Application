@@ -13,7 +13,8 @@
 MainComponent::MainComponent (Audio& audio_) : audio (audio_)
 {
     setSize (500, 400);
-
+    filePlayerGui.setFilePlayer (audio.getFilePlayer());
+    addAndMakeVisible(filePlayerGui);
 }
 
 MainComponent::~MainComponent()
@@ -23,7 +24,7 @@ MainComponent::~MainComponent()
 
 void MainComponent::resized()
 {
-    
+    filePlayerGui.setBounds (0, 0, getWidth(), 20);
 }
 
 //MenuBarCallbacks==============================================================

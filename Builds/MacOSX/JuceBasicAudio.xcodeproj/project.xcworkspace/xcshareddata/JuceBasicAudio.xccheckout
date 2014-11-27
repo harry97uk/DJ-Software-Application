@@ -10,6 +10,8 @@
 	<string>JuceBasicAudio</string>
 	<key>IDESourceControlProjectOriginsDictionary</key>
 	<dict>
+		<key>2954BBC294A66E2F3FC8046D65A6BCEFF37E044C</key>
+		<string>https://bitbucket.org/uwe_sda/05-audio-transport.git</string>
 		<key>93A187BCA263EEBA389D744319FC3F1032228D24</key>
 		<string>https://bitbucket.org/teamaxe/03-juce-basic-audio.git</string>
 	</dict>
@@ -17,15 +19,17 @@
 	<string>Builds/MacOSX/JuceBasicAudio.xcodeproj</string>
 	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
 	<dict>
-		<key>93A187BCA263EEBA389D744319FC3F1032228D24</key>
+		<key>2954BBC294A66E2F3FC8046D65A6BCEFF37E044C</key>
 		<string>../../../..</string>
+		<key>93A187BCA263EEBA389D744319FC3F1032228D24</key>
+		<string>../../../../../03-juce-basic-audio</string>
 	</dict>
 	<key>IDESourceControlProjectURL</key>
-	<string>https://bitbucket.org/teamaxe/03-juce-basic-audio.git</string>
+	<string>https://bitbucket.org/uwe_sda/05-audio-transport.git</string>
 	<key>IDESourceControlProjectVersion</key>
 	<integer>111</integer>
 	<key>IDESourceControlProjectWCCIdentifier</key>
-	<string>93A187BCA263EEBA389D744319FC3F1032228D24</string>
+	<string>2954BBC294A66E2F3FC8046D65A6BCEFF37E044C</string>
 	<key>IDESourceControlProjectWCConfigurations</key>
 	<array>
 		<dict>
@@ -35,6 +39,14 @@
 			<string>93A187BCA263EEBA389D744319FC3F1032228D24</string>
 			<key>IDESourceControlWCCName</key>
 			<string>03-juce-basic-audio</string>
+		</dict>
+		<dict>
+			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
+			<string>public.vcs.git</string>
+			<key>IDESourceControlWCCIdentifierKey</key>
+			<string>2954BBC294A66E2F3FC8046D65A6BCEFF37E044C</string>
+			<key>IDESourceControlWCCName</key>
+			<string>05-audio-transport</string>
 		</dict>
 	</array>
 </dict>
