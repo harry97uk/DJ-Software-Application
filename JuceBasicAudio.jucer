@@ -2,7 +2,7 @@
 
 <JUCERPROJECT id="D7j2Et" name="JuceBasicAudio" projectType="guiapp" version="1.0.0"
               bundleIdentifier="com.yourcompany.JuceBasicAudio" includeBinaryInAppConfig="1"
-              jucerVersion="3.2.0">
+              jucerVersion="4.2.4">
   <MAINGROUP id="oht8lM" name="JuceBasicAudio">
     <GROUP id="{956C6E0C-B36F-1A18-0A05-3D3C7CED70E8}" name="Source">
       <FILE id="qibqAB" name="Main.cpp" compile="1" resource="0" file="Source/Main.cpp"/>
