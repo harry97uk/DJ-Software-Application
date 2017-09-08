@@ -11,6 +11,7 @@
 #include "FilePlayerGui.h"
 
 FilePlayerGui::FilePlayerGui (FilePlayer& filePlayer_) : filePlayer (filePlayer_)
+
 {
     playButton.setButtonText (">");
     playButton.addListener(this);
@@ -31,9 +32,8 @@ FilePlayerGui::FilePlayerGui (FilePlayer& filePlayer_) : filePlayer (filePlayer_
 
 FilePlayerGui::~FilePlayerGui()
 {
-    delete fileChooser;
+    
 }
-
 
 //Component
 void FilePlayerGui::resized()

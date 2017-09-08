@@ -40,9 +40,7 @@ public:
                                 float** outputChannelData,
                                 int numOutputChannels,
                                 int numSamples) override;
-    
     void audioDeviceAboutToStart (AudioIODevice* device) override;
-    
     void audioDeviceStopped() override;
 private:
     AudioDeviceManager audioDeviceManager;
@@ -50,7 +48,5 @@ private:
     AudioSourcePlayer audioSourcePlayer;
     FilePlayer filePlayer;
 };
-
-
 
 #endif  // AUDIO_H_INCLUDED

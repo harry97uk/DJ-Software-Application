@@ -33,17 +33,17 @@ public:
     ~FilePlayerGui();
     
     //Component
-    void resized();
+    void resized() override;
     
     //Button Listener
-    void buttonClicked (Button* button);
+    void buttonClicked (Button* button)override ;
     
     //FilenameComponentListener
-    void filenameComponentChanged (FilenameComponent* fileComponentThatHasChanged);
+    void filenameComponentChanged (FilenameComponent* fileComponentThatHasChanged) override;
 
 private:
     TextButton playButton;
-    FilenameComponent* fileChooser;
+    ScopedPointer<FilenameComponent> fileChooser;
     
     FilePlayer& filePlayer;
     

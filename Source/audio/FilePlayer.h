@@ -42,12 +42,12 @@ public:
     /**
      Loads the specified file into the transport source
      */
-    void loadFile(const File& newFile);
+    void loadFile (const File& newFile);
     
     //AudioSource
-    void prepareToPlay (int samplesPerBlockExpected, double sampleRate);
-    void releaseResources();
-    void getNextAudioBlock (const AudioSourceChannelInfo& bufferToFill);
+    void prepareToPlay (int samplesPerBlockExpected, double sampleRate) override;
+    void releaseResources() override;
+    void getNextAudioBlock (const AudioSourceChannelInfo& bufferToFill) override;
     
 private:
     AudioFormatReaderSource* currentAudioFileSource;    //reads audio from the file
