@@ -12,7 +12,7 @@
 #define H_FILEPLAYERGUI
 
 #include "../JuceLibraryCode/JuceHeader.h"
-#include "FilePlayer.h"
+#include "../audio/FilePlayer.h"
 
 /**
  Gui for the FilePlayer class
