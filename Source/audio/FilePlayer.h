@@ -44,6 +44,14 @@ public:
      */
     void loadFile (const File& newFile);
     
+    void setPosition (float newPosition);
+    
+    float getPosition();
+    
+    void setGain (float sliderValue);
+    
+    float getGain();
+    
     //AudioSource
     void prepareToPlay (int samplesPerBlockExpected, double sampleRate) override;
     void releaseResources() override;
@@ -54,6 +62,7 @@ private:
     AudioTransportSource audioTransportSource;	// this controls the playback of a positionable audio stream, handling the
                                             // starting/stopping and sample-rate conversion
     TimeSliceThread thread;                 //thread for the transport source
+    
 };
 
 #endif  // H_FILEPLAYER

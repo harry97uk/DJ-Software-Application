@@ -10,10 +10,22 @@
 
 
 //==============================================================================
-MainComponent::MainComponent (Audio& audio_) : audio (audio_), filePlayerGui (audio_.getFilePlayer())
+MainComponent::MainComponent (Audio& audio_) : audio (audio_), filePlayerGui(audio.getFilePlayer(0)), filePlayerGui1(audio.getFilePlayer(1))
 {
+    
+    
     setSize (500, 400);
     addAndMakeVisible(filePlayerGui);
+    addAndMakeVisible(filePlayerGui1);
+    
+    filePan.addListener(this);
+    addAndMakeVisible(&filePan);
+    filePan.setRange(-1, 1);
+    filePan.setValue(0);
+    
+    masterGain.addListener(this);
+    addAndMakeVisible(&masterGain);
+    masterGain.setRange(0, 1);
 }
 
 MainComponent::~MainComponent()
@@ -23,7 +35,25 @@ MainComponent::~MainComponent()
 
 void MainComponent::resized()
 {
-    filePlayerGui.setBounds (0, 0, getWidth(), 20);
+    filePlayerGui.setBounds (0, 0, getWidth()/2, getHeight()-20);
+    filePlayerGui1.setBounds (getWidth()/2, 0, getWidth()/2, getHeight()-20);
+    masterGain.setBounds(0, getHeight()-20, getWidth(), 20);
+    filePan.setBounds(0, getHeight()-40, getWidth(), 20);
+    
+}
+
+void MainComponent::sliderValueChanged(Slider* slider)
+{
+    if (slider == &masterGain)
+    {
+        audio.masterGain(masterGain.getValue());
+    }
+    else if (slider == &filePan)
+    {
+        audio.crossfadeGain(filePan.getValue());
+    }
+    
+    
 }
 
 //MenuBarCallbacks==============================================================

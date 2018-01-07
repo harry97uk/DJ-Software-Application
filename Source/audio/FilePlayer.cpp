@@ -14,6 +14,7 @@ FilePlayer::FilePlayer() : thread("FilePlayThread")
 {
     thread.startThread();
     currentAudioFileSource = NULL;
+    
 }
 
 /**
@@ -34,7 +35,6 @@ void FilePlayer::setPlaying (const bool newState)
 {
     if(newState == true)
     {
-        audioTransportSource.setPosition(0.0);
         audioTransportSource.start();
     }
     else
@@ -76,11 +76,36 @@ void FilePlayer::loadFile(const File& newFile)
         
         // ..and plug it into our transport source
         audioTransportSource.setSource (currentAudioFileSource,
-                                   32768, // tells it to buffer this many samples ahead
+                                   176400, // tells it to buffer this many samples ahead
                                    &thread,
                                    reader->sampleRate);
     }
 }
+
+void FilePlayer::setPosition(float newPosition)
+{
+    audioTransportSource.setPosition(newPosition * audioTransportSource.getLengthInSeconds());
+}
+
+float FilePlayer::getPosition()
+{
+    float position;
+    position = audioTransportSource.getCurrentPosition()/audioTransportSource.getLengthInSeconds();
+    return position;
+}
+
+void FilePlayer::setGain(float sliderValue)
+{
+    audioTransportSource.setGain(sliderValue);
+}
+
+float FilePlayer::getGain()
+{
+    float gain;
+    gain = audioTransportSource.getGain();
+    return gain;
+}
+
 
 //AudioSource
 void FilePlayer::prepareToPlay (int samplesPerBlockExpected, double sampleRate)

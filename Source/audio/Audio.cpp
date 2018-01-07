@@ -15,16 +15,23 @@ Audio::Audio()
     audioDeviceManager.initialiseWithDefaultDevices (2, 2); //2 inputs, 2 outputs
     
     //load the filePlayer into the audio source
-    audioSourcePlayer.setSource (&filePlayer);
+    audioSourcePlayer.setSource (&mixerAudioSource);
+    
     
     audioDeviceManager.addMidiInputCallback (String::empty, this);
     audioDeviceManager.addAudioCallback (this);
-}
+    
+    mixerAudioSource.addInputSource(&filePlayer[0], true);
+    mixerAudioSource.addInputSource(&filePlayer[1], true);
+    
+    }
 
 Audio::~Audio()
 {
     audioDeviceManager.removeAudioCallback (this);
     audioDeviceManager.removeMidiInputCallback (String::empty, this);
+    
+    mixerAudioSource.removeAllInputs();
 }
 
 
@@ -47,12 +54,14 @@ void Audio::audioDeviceIOCallback (const float** inputChannelData,
     const float *inR = inputChannelData[1];
     float *outL = outputChannelData[0];
     float *outR = outputChannelData[1];
-    
     float inSampL;
     float inSampR;
     
     while(numSamples--)
     {
+        
+        
+        
         inSampL = *outL;
         inSampR = *outL;
         
@@ -63,7 +72,9 @@ void Audio::audioDeviceIOCallback (const float** inputChannelData,
         inR++;
         outL++;
         outR++;
+
     }
+    
 }
 
 
@@ -76,3 +87,24 @@ void Audio::audioDeviceStopped()
 {
     audioSourcePlayer.audioDeviceStopped();
 }
+
+void Audio::masterGain(float sliderValue)
+{
+    audioSourcePlayer.setGain(sliderValue);
+}
+
+void Audio::crossfadeGain(float sliderValue)
+{
+    if (sliderValue < 0)
+    {
+        filePlayer[1].setGain(fabsf(sliderValue) * filePlayer[1].getGain());
+    }
+    else if (sliderValue > 0)
+    {
+        filePlayer[0].setGain(fabsf(sliderValue) * filePlayer[0].getGain());
+    }
+    
+    
+    
+}
+

@@ -31,7 +31,7 @@ public:
     /** Returns the audio device manager, don't keep a copy of it! */
     AudioDeviceManager& getAudioDeviceManager() { return audioDeviceManager;}
     
-    FilePlayer& getFilePlayer() { return filePlayer; }
+    FilePlayer& getFilePlayer(int fileNum) { return filePlayer[fileNum]; }
     
     void handleIncomingMidiMessage (MidiInput* source, const MidiMessage& message) override;
     
@@ -42,11 +42,15 @@ public:
                                 int numSamples) override;
     void audioDeviceAboutToStart (AudioIODevice* device) override;
     void audioDeviceStopped() override;
+    void masterGain(float sliderValue);
+    void crossfadeGain(float sliderValue);
 private:
     AudioDeviceManager audioDeviceManager;
-    
     AudioSourcePlayer audioSourcePlayer;
-    FilePlayer filePlayer;
+    FilePlayer filePlayer[2];
+    MixerAudioSource mixerAudioSource;
+    
+    
 };
 
 #endif  // AUDIO_H_INCLUDED

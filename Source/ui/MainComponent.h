@@ -20,7 +20,9 @@
     your controls and content.
 */
 class MainComponent   : public Component,
-                        public MenuBarModel
+                        public MenuBarModel,
+                        public Slider::Listener
+
 {
 public:
     //==============================================================================
@@ -31,6 +33,8 @@ public:
     ~MainComponent();
 
     void resized() override;
+    
+    void sliderValueChanged(Slider* slider) override;
     
     //MenuBarEnums/Callbacks========================================================
     enum Menus
@@ -53,6 +57,9 @@ public:
 private:
     Audio& audio;
     FilePlayerGui filePlayerGui;
+    FilePlayerGui filePlayerGui1;
+    Slider masterGain;
+    Slider filePan;
     
 
     //==============================================================================

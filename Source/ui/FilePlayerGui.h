@@ -19,7 +19,9 @@
  */
 class FilePlayerGui :   public Component,
                         public Button::Listener,
-                        public FilenameComponentListener
+                        public FilenameComponentListener,
+                        public Slider::Listener,
+                        public Timer
 {
 public:
     /**
@@ -36,13 +38,21 @@ public:
     void resized() override;
     
     //Button Listener
-    void buttonClicked (Button* button)override ;
+    void buttonClicked(Button* button) override;
     
+    void sliderValueChanged(Slider* slider) override;
+    
+    void timerCallback() override;
     //FilenameComponentListener
     void filenameComponentChanged (FilenameComponent* fileComponentThatHasChanged) override;
+    
 
 private:
     TextButton playButton;
+    Slider playbackPosition;
+    Slider fileGain;
+    Slider LFreq;
+    AudioVisualiserComponent waveform;
     ScopedPointer<FilenameComponent> fileChooser;
     
     FilePlayer& filePlayer;
