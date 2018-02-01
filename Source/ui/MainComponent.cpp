@@ -10,11 +10,11 @@
 
 
 //==============================================================================
-MainComponent::MainComponent (Audio& audio_) : audio (audio_), filePlayerGui(audio.getFilePlayer(0)), filePlayerGui1(audio.getFilePlayer(1))
+MainComponent::MainComponent (Audio& audio_) : audio (audio_), filePlayerGui(audio.getFilePlayer(0), audio.getFilePlayer(0).getEQ()), filePlayerGui1(audio.getFilePlayer(1), audio.getFilePlayer(1).getEQ())
 {
     
     
-    setSize (500, 400);
+    setSize (1000, 600);
     addAndMakeVisible(filePlayerGui);
     addAndMakeVisible(filePlayerGui1);
     
@@ -24,6 +24,7 @@ MainComponent::MainComponent (Audio& audio_) : audio (audio_), filePlayerGui(aud
     filePan.setValue(0);
     
     masterGain.addListener(this);
+    masterGain.setValue(1);
     addAndMakeVisible(&masterGain);
     masterGain.setRange(0, 1);
 }
@@ -50,7 +51,7 @@ void MainComponent::sliderValueChanged(Slider* slider)
     }
     else if (slider == &filePan)
     {
-        audio.crossfadeGain(filePan.getValue());
+        audio.crossfadeGain(filePan.getValue(), filePlayerGui.crossfadeFileGainValue(), filePlayerGui1.crossfadeFileGainValue());
     }
     
     

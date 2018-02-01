@@ -15,9 +15,8 @@
 
 
 //==============================================================================
-/*
-    This component lives inside our window, and this is where you should put all
-    your controls and content.
+/**
+    Main Component contains two versions of a graphical user interface for each file player along with a master gain control and crossfade option
 */
 class MainComponent   : public Component,
                         public MenuBarModel,
@@ -32,8 +31,10 @@ public:
     /** Destructor */
     ~MainComponent();
 
+    /** Used to arrange objects in the window*/
     void resized() override;
-    
+
+    /** Slider Listener - called when a slider is moved*/
     void sliderValueChanged(Slider* slider) override;
     
     //MenuBarEnums/Callbacks========================================================

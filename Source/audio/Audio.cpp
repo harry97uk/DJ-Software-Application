@@ -12,17 +12,20 @@
 
 Audio::Audio()
 {
-    audioDeviceManager.initialiseWithDefaultDevices (2, 2); //2 inputs, 2 outputs
+    audioDeviceManager.initialiseWithDefaultDevices (2, 2);//2 inputs, 2 outputs
     
     //load the filePlayer into the audio source
-    audioSourcePlayer.setSource (&mixerAudioSource);
+    audioSourcePlayer.setSource(&mixerAudioSource);
     
     
     audioDeviceManager.addMidiInputCallback (String::empty, this);
     audioDeviceManager.addAudioCallback (this);
     
+   
+    
     mixerAudioSource.addInputSource(&filePlayer[0], true);
     mixerAudioSource.addInputSource(&filePlayer[1], true);
+    
     
     }
 
@@ -49,6 +52,11 @@ void Audio::audioDeviceIOCallback (const float** inputChannelData,
     // get the audio from our file player - player puts samples in the output buffer
     audioSourcePlayer.audioDeviceIOCallback (inputChannelData, numInputChannels, outputChannelData, numOutputChannels, numSamples);
     
+    
+    
+    
+    
+    
     //All audio processing is done here
     const float *inL = inputChannelData[0];
     const float *inR = inputChannelData[1];
@@ -56,17 +64,22 @@ void Audio::audioDeviceIOCallback (const float** inputChannelData,
     float *outR = outputChannelData[1];
     float inSampL;
     float inSampR;
-    
     while(numSamples--)
     {
         
-        
+    
         
         inSampL = *outL;
-        inSampR = *outL;
+        inSampR = *outR;
+        
+    
+   
         
         *outL = inSampL * 1.f;
         *outR = inSampR * 1.f;
+        
+        
+        
         
         inL++;
         inR++;
@@ -81,30 +94,35 @@ void Audio::audioDeviceIOCallback (const float** inputChannelData,
 void Audio::audioDeviceAboutToStart (AudioIODevice* device)
 {
     audioSourcePlayer.audioDeviceAboutToStart (device);
+    
+    
+    
 }
 
 void Audio::audioDeviceStopped()
 {
     audioSourcePlayer.audioDeviceStopped();
+    
 }
 
 void Audio::masterGain(float sliderValue)
 {
     audioSourcePlayer.setGain(sliderValue);
+    
 }
 
-void Audio::crossfadeGain(float sliderValue)
+void Audio::crossfadeGain(float sliderValue, float FileGain, float FileGain1)
 {
     if (sliderValue < 0)
     {
-        filePlayer[1].setGain(fabsf(sliderValue) * filePlayer[1].getGain());
+        filePlayer[1].setGain((1 - fabsf(sliderValue)) * FileGain1);
     }
     else if (sliderValue > 0)
     {
-        filePlayer[0].setGain(fabsf(sliderValue) * filePlayer[0].getGain());
+        filePlayer[0].setGain((1 - fabsf(sliderValue)) * FileGain);
     }
     
-    
-    
 }
+
+
 

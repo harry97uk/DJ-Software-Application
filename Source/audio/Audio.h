@@ -17,9 +17,12 @@
 
 #include "../../JuceLibraryCode/JuceHeader.h"
 #include "FilePlayer.h"
+#include "EQ.hpp"
+
 
 class Audio :   public MidiInputCallback,
                 public AudioIODeviceCallback
+
 {
 public:
     /** Constructor */
@@ -42,8 +45,15 @@ public:
                                 int numSamples) override;
     void audioDeviceAboutToStart (AudioIODevice* device) override;
     void audioDeviceStopped() override;
+    
+    /** Controls the gain for both file players*/
     void masterGain(float sliderValue);
-    void crossfadeGain(float sliderValue);
+    
+    /** Controls how the crossfase works
+     @param sliderValue Decides the level of the crossfade from a slider with range -1 to 1
+     @param FileGain is the value of the file gain as constant*/
+    void crossfadeGain(float sliderValue, float FileGain, float FileGain1);
+    
 private:
     AudioDeviceManager audioDeviceManager;
     AudioSourcePlayer audioSourcePlayer;

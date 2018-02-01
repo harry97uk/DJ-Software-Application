@@ -13,13 +13,17 @@
 
 #include "../JuceLibraryCode/JuceHeader.h"
 #include "../audio/FilePlayer.h"
+#include "../audio/EQ.hpp"
+#include "../audio/Audio.h"
+#include <thread>
+
 
 /**
  Gui for the FilePlayer class
  */
 class FilePlayerGui :   public Component,
                         public Button::Listener,
-                        public FilenameComponentListener,
+                        public FileBrowserListener,
                         public Slider::Listener,
                         public Timer
 {
@@ -27,35 +31,60 @@ public:
     /**
      constructor - receives a reference to a FilePlayer object to control
      */
-    FilePlayerGui(FilePlayer& filePlayer_);
+    FilePlayerGui(FilePlayer& filePlayer_, EQ& eq_);
     
     /**
      Destructor 
      */
     ~FilePlayerGui();
     
-    //Component
+    /** Used to arrange objects in the FilePlayerGui */
     void resized() override;
     
-    //Button Listener
-    void buttonClicked(Button* button) override;
+    /**Button Listener - called when a button is clicked*/
+     void buttonClicked(Button* button) override;
     
+    /** Slider Listener - called when a slider is moved*/
     void sliderValueChanged(Slider* slider) override;
-    
+   
+    /** Used to update playback slider position*/
     void timerCallback() override;
-    //FilenameComponentListener
-    void filenameComponentChanged (FilenameComponent* fileComponentThatHasChanged) override;
     
-
+    /** FileBrowserListener */
+    void loadFile();
+    
+    /** Function that does something when the slection is changed in the file browser
+     @see FileBrowserListener*/
+    void selectionChanged() override;
+    
+    /** Loads selected file if clicked once
+     @see FileBrowserListener*/
+    void fileClicked (const File& file, const MouseEvent& e) override;
+    
+    /** Loads selected file if clicked twice
+     @see FileBrowserListener*/
+    void fileDoubleClicked (const File& file) override;
+    
+    /** Called if the browser's root changes
+     @see FileBrowserListener*/
+    void browserRootChanged (const File& newRoot) override;
+    
+    /** @return the value of the gain slider for each file player for use with the overall crossfade slider*/
+    float crossfadeFileGainValue();
 private:
     TextButton playButton;
+    TextButton startLoopButton, endLoopButton;
     Slider playbackPosition;
     Slider fileGain;
-    Slider LFreq;
+    Slider LFreq, MFreq, HFreq;
+    Label gain, bass, mid, high, playback;
     AudioVisualiserComponent waveform;
-    ScopedPointer<FilenameComponent> fileChooser;
+    ScopedPointer<FileBrowserComponent> fileChooser;
     
     FilePlayer& filePlayer;
+    EQ& eq;
+    Atomic<bool> loop;
+    
     
 };
 

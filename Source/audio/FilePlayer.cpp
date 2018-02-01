@@ -14,7 +14,6 @@ FilePlayer::FilePlayer() : thread("FilePlayThread")
 {
     thread.startThread();
     currentAudioFileSource = NULL;
-    
 }
 
 /**
@@ -22,7 +21,7 @@ FilePlayer::FilePlayer() : thread("FilePlayThread")
  */
 FilePlayer::~FilePlayer()
 {
-    audioTransportSource.setSource(0);//unload the current file
+    audioTransportSource.setSource(nullptr);//unload the current file
     deleteAndZero(currentAudioFileSource);//delete the current file
     
     thread.stopThread(100);
@@ -76,7 +75,7 @@ void FilePlayer::loadFile(const File& newFile)
         
         // ..and plug it into our transport source
         audioTransportSource.setSource (currentAudioFileSource,
-                                   176400, // tells it to buffer this many samples ahead
+                                   currentAudioFileSource->getTotalLength(),     //buffer this many samples ahead
                                    &thread,
                                    reader->sampleRate);
     }
@@ -107,6 +106,30 @@ float FilePlayer::getGain()
 }
 
 
+AudioSampleBuffer FilePlayer::getBuffer()
+{
+    return waveform;
+}
+
+/**void FilePlayer::setLooping(bool newState, float startPos)
+{
+    ScopedLock sl(loopLock);
+    
+    while (newState == true)
+    {
+        float endPos = startPos + 4/audioTransportSource.getLengthInSeconds();
+        
+        float currentPos = audioTransportSource.getCurrentPosition()/audioTransportSource.getLengthInSeconds();
+        
+        if (currentPos == endPos || currentPos > endPos)
+        {
+            audioTransportSource.setPosition(startPos * audioTransportSource.getLengthInSeconds());
+        }
+    }
+}
+*/
+
+
 //AudioSource
 void FilePlayer::prepareToPlay (int samplesPerBlockExpected, double sampleRate)
 {
@@ -120,5 +143,31 @@ void FilePlayer::releaseResources()
 
 void FilePlayer::getNextAudioBlock (const AudioSourceChannelInfo& bufferToFill)
 {
+    
+    
     audioTransportSource.getNextAudioBlock (bufferToFill);
+    
+    
+    
+    for (int counter = bufferToFill.startSample; counter < bufferToFill.numSamples; counter++)
+    {
+        float bass[2], mid[2], high[2];
+    
+        for (int numChans = 0; numChans < bufferToFill.buffer->getNumChannels(); numChans++)
+        {
+            float sample = bufferToFill.buffer->getSample(numChans, counter);
+            waveform = *bufferToFill.buffer;
+            
+            bass[numChans] = eq.filterSamples(sample, kBass);
+            mid[numChans] = eq.filterSamples(sample, kMid);
+            high[numChans] = eq.filterSamples(sample, kHigh);
+            
+            
+            bufferToFill.buffer->setSample(numChans, counter, ((sample +(bass[numChans] * eq.getFreqGain(0)) + (mid[numChans] * eq.getFreqGain(1)) + (high[numChans] * eq.getFreqGain(2)))));
+            
+        }
+    }
+    
+    
+    
 }
